@@ -1,7 +1,7 @@
-module "deniseaddario_se" {
+module "hjuvik_se" {
   source = "../modules/hosted-zone"
 
-  domain_name   = "deniseaddario.se"
+  domain_name   = "hjuvik.se"
   transfer_lock = false // Not supported by .se
 
   admin_contact      = var.default_contact
