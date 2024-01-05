@@ -23,12 +23,11 @@ module "montern_se" {
 }
 
 resource "aws_route53_record" "google_spf" {
-  allow_overwrite = true
+  zone_id         = module.montern_se.route53_zone_id
   name            = ""
-  ttl             = 3600
   type            = "TXT"
-  zone_id         = module.montern_se.output.route53_zone_id
-
+  ttl             = 3600
+  
   records = [
     "v=spf1 include:_spf.google.com ~all"
   ]
