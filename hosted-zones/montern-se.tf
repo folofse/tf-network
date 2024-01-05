@@ -34,7 +34,7 @@ resource "aws_route53_record" "google_spf" {
 }
 
 resource "aws_route53_record" "google_mx" {
-  zone_id = aws_route53_zone.example.zone_id
+  zone_id = module.montern_se.route53_zone_id
   name    = ""
   type    = "MX"
   ttl     = 3600
