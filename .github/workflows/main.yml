@@ -25,7 +25,6 @@ jobs:
           region: eu-north-1
           profile: backend
 
-
       - uses: ./.github/actions/tf-quality-check
         name: Terraform Quality Check
         with:

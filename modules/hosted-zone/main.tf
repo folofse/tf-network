@@ -26,7 +26,7 @@ resource "aws_route53domains_registered_domain" "registered_domain" {
 
   # contact_type == "PERSON"
   dynamic "admin_contact" {
-    for_each = var.admin_contact != {} ? [1] : []
+    for_each = (var.admin_contact != {} && var.admin_contact.contact_type == "PERSON") ? [1] : []
     content {
       address_line_1 = var.admin_contact.address_line_1 != null ? var.admin_contact.address_line_1 : null
       address_line_2 = var.admin_contact.address_line_2 != null ? var.admin_contact.address_line_2 : null
@@ -44,7 +44,7 @@ resource "aws_route53domains_registered_domain" "registered_domain" {
     }
   }
   dynamic "registrant_contact" {
-    for_each = var.registrant_contact != {} ? [1] : []
+    for_each = (var.registrant_contact != {} && var.registrant_contact.contact_type == "PERSON") ? [1] : []
     content {
       address_line_1 = var.registrant_contact.address_line_1 != null ? var.registrant_contact.address_line_1 : null
       address_line_2 = var.registrant_contact.address_line_2 != null ? var.registrant_contact.address_line_2 : null
@@ -62,7 +62,7 @@ resource "aws_route53domains_registered_domain" "registered_domain" {
     }
   }
   dynamic "tech_contact" {
-    for_each = var.tech_contact != {} ? [1] : []
+    for_each = (var.tech_contact != {} && var.tech_contact.contact_type == "PERSON") ? [1] : []
     content {
       address_line_1 = var.tech_contact.address_line_1 != null ? var.tech_contact.address_line_1 : null
       address_line_2 = var.tech_contact.address_line_2 != null ? var.tech_contact.address_line_2 : null
