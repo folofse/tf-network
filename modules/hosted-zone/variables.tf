@@ -4,6 +4,12 @@ variable "admin_contact" {
   default     = null
 }
 
+variable "admin_contact_extra_params" {
+  type        = map(string)
+  description = "(Optional) A key-value map of parameters required by certain top-level domains."
+  default     = null
+}
+
 variable "admin_privacy" {
   type        = bool
   description = "(Optional) Whether domain administrative contact information is concealed from WHOIS queries. Default: true."
@@ -27,6 +33,12 @@ variable "registrant_contact" {
   default     = null
 }
 
+variable "registrant_contact_extra_params" {
+  type        = map(string)
+  description = "(Optional) A key-value map of parameters required by certain top-level domains."
+  default     = null
+}
+
 variable "registrant_privacy" {
   type        = bool
   description = "(Optional) Whether domain registrant contact information is concealed from WHOIS queries. Default: true."
@@ -45,6 +57,12 @@ variable "tech_contact" {
   default     = null
 }
 
+variable "tech_contact_extra_params" {
+  type        = map(string)
+  description = "(Optional) A key-value map of parameters required by certain top-level domains."
+  default     = null
+}
+
 variable "tech_privacy" {
   type        = bool
   description = "(Optional) Whether domain technical contact information is concealed from WHOIS queries. Default: true."
@@ -56,6 +74,8 @@ variable "transfer_lock" {
   description = "(Optional) Whether the domain is locked for transfer. Default: true."
   default     = true
 }
+
+
 
 
 /*

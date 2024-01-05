@@ -36,11 +36,11 @@ resource "aws_route53domains_registered_domain" "registered_domain" {
       contact_type   = var.admin_contact.contact_type != null ? var.admin_contact.contact_type : null
       country_code   = var.admin_contact.country_code != null ? var.admin_contact.country_code : null
       email          = var.admin_contact.email != null ? var.admin_contact.email : null
-      // extra_params   = var.admin_contact.extra_params != null ? var.admin_contact.extra_params : null
-      fax          = var.admin_contact.fax != null ? var.admin_contact.fax : null
-      first_name   = var.admin_contact.first_name != null ? var.admin_contact.first_name : null
-      last_name    = var.admin_contact.last_name != null ? var.admin_contact.last_name : null
-      phone_number = var.admin_contact.phone_number != null ? var.admin_contact.phone_number : null
+      extra_params   = var.admin_contact_extra_params != null ? var.admin_contact_extra_params : null
+      fax            = var.admin_contact.fax != null ? var.admin_contact.fax : null
+      first_name     = var.admin_contact.first_name != null ? var.admin_contact.first_name : null
+      last_name      = var.admin_contact.last_name != null ? var.admin_contact.last_name : null
+      phone_number   = var.admin_contact.phone_number != null ? var.admin_contact.phone_number : null
     }
   }
   dynamic "registrant_contact" {
@@ -54,11 +54,12 @@ resource "aws_route53domains_registered_domain" "registered_domain" {
       contact_type   = var.registrant_contact.contact_type != null ? var.registrant_contact.contact_type : null
       country_code   = var.registrant_contact.country_code != null ? var.registrant_contact.country_code : null
       email          = var.registrant_contact.email != null ? var.registrant_contact.email : null
-      // extra_params   = var.registrant_contact.extra_params != null ? var.registrant_contact.extra_params : null
-      fax          = var.registrant_contact.fax != null ? var.registrant_contact.fax : null
-      first_name   = var.registrant_contact.first_name != null ? var.registrant_contact.first_name : null
-      last_name    = var.registrant_contact.last_name != null ? var.registrant_contact.last_name : null
-      phone_number = var.registrant_contact.phone_number != null ? var.registrant_contact.phone_number : null
+      extra_params   = var.registrant_contact_extra_params != null ? var.registrant_contact_extra_params : null
+      fax            = var.registrant_contact.fax != null ? var.registrant_contact.fax : null
+      first_name     = var.registrant_contact.first_name != null ? var.registrant_contact.first_name : null
+      last_name      = var.registrant_contact.last_name != null ? var.registrant_contact.last_name : null
+      phone_number   = var.registrant_contact.phone_number != null ? var.registrant_contact.phone_number : null
+
     }
   }
   dynamic "tech_contact" {
@@ -72,11 +73,11 @@ resource "aws_route53domains_registered_domain" "registered_domain" {
       contact_type   = var.tech_contact.contact_type != null ? var.tech_contact.contact_type : null
       country_code   = var.tech_contact.country_code != null ? var.tech_contact.country_code : null
       email          = var.tech_contact.email != null ? var.tech_contact.email : null
-      // extra_params   = var.tech_contact.extra_params != null ? var.tech_contact.extra_params : null
-      fax          = var.tech_contact.fax != null ? var.tech_contact.fax : null
-      first_name   = var.tech_contact.first_name != null ? var.tech_contact.first_name : null
-      last_name    = var.tech_contact.last_name != null ? var.tech_contact.last_name : null
-      phone_number = var.tech_contact.phone_number != null ? var.tech_contact.phone_number : null
+      extra_params   = var.tech_contact_extra_params != null ? var.tech_contact_extra_params : null
+      fax            = var.tech_contact.fax != null ? var.tech_contact.fax : null
+      first_name     = var.tech_contact.first_name != null ? var.tech_contact.first_name : null
+      last_name      = var.tech_contact.last_name != null ? var.tech_contact.last_name : null
+      phone_number   = var.tech_contact.phone_number != null ? var.tech_contact.phone_number : null
     }
   }
 }
