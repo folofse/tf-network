@@ -1,4 +1,4 @@
-module "brf_leopold" {
+module "vikty_se" {
   source = "../modules/hosted-zone"
 
   domain_name   = "vikty.se"
