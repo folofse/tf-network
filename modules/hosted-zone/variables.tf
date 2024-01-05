@@ -95,4 +95,7 @@ organization_name - (Optional) Name of the organization for contact types other 
 phone_number - (Optional) The phone number of the contact. Phone number must be specified in the format "+[country dialing code].[number including any area code]".
 state - (Optional) The state or province of the contact's city.
 zip_code - (Optional) The zip or postal code of the contact's address.
+
+// Extra variables
+SE_ID_NUMBER, FI_NATIONALITY, IT_PIN, CA_LEGAL_TYPE, BRAND_NUMBER, UK_CONTACT_TYPE, SG_ID_NUMBER, AU_ID_NUMBER, CA_LEGAL_REPRESENTATIVE, IT_NATIONALITY, AU_PRIORITY_TOKEN, BIRTH_DATE_IN_YYYY_MM_DD, FI_ORGANIZATION_TYPE, BIRTH_CITY, FI_BUSINESS_NUMBER, DOCUMENT_NUMBER, FI_ID_NUMBER, BIRTH_DEPARTMENT, DUNS_NUMBER, AU_ID_TYPE, EU_COUNTRY_OF_CITIZENSHIP, UK_COMPANY_NUMBER, CA_LEGAL_REPRESENTATIVE_CAPACITY, IT_REGISTRANT_ENTITY_TYPE, BIRTH_COUNTRY, CA_BUSINESS_ENTITY_TYPE, ES_IDENTIFICATION_TYPE, RU_PASSPORT_DATA, ES_LEGAL_FORM, VAT_NUMBER, ES_IDENTIFICATION
 */
