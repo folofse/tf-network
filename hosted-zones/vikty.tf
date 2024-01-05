@@ -1,7 +1,8 @@
 module "brf_leopold" {
   source = "../modules/hosted-zone"
 
-  domain_name = "vikty.se"
+  domain_name   = "vikty.se"
+  transfer_lock = false // Not supported by .se
 
   admin_contact      = var.default_contact
   registrant_contact = var.default_contact
