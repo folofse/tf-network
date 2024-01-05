@@ -1,0 +1,149 @@
+name: tf-quality-check
+description: 'Format, validate and plan Terraform code'
+
+inputs:
+  terraform-version:
+    description: The version of Terraform CLI to install. Instead of full version string you can also specify constraint string starting with "<" (for example <1.13.0) to install the latest version satisfying the constraint. A value of latest will install the latest version of Terraform CLI. Defaults to latest.
+    default: latest
+    required: false
+  terraform-token:
+    description: The API token for a Terraform Cloud/Enterprise instance to place within the credentials block of the Terraform CLI configuration file.
+    required: false
+  plan-name:
+    description: The name of the plan output artifact.
+    default: plan
+    required: false
+  lock-state:
+    description: Whether to lock the state file when running Terraform plan. Defaults to false.
+    default: false
+    required: false
+  workspace:
+    description: If specified, will select the given workspace before running plan.
+    required: false
+  parallelism:
+    description: The number of concurrent operations as Terraform walks the graph. Defaults to 10.
+    required: false
+    default: 10
+  var-file:
+    description: tfvars file to use when running Terraform plan.
+    required: false
+    default: ''
+  working-directory:
+    description: Set working-directory for Terraform. Defaults to ./.
+    default: ./
+    required: false
+
+runs:
+  using: composite
+  steps:
+    - name: Setup Terraform
+      uses: hashicorp/setup-terraform@v3
+      with:
+        cli_config_credentials_token: ${{ inputs.terraform-token }}
+        terraform_version: ${{ inputs.terraform-version }}
+
+    - name: Terraform Format
+      id: fmt
+      shell: bash
+      run: terraform fmt -check -diff -recursive
+      working-directory: ${{ inputs.working-directory }}
+      continue-on-error: true
+
+    - name: Terraform init
+      id: init
+      shell: bash
+      run: terraform init
+      working-directory: ${{ inputs.working-directory }}
+      continue-on-error: true
+      env:
+        TF_WORKSPACE: ${{ inputs.workspace != '' && inputs.workspace || '' }}
+
+    - name: Terraform Workspace
+      if: ${{ inputs.workspace != '' }}
+      id: workspace
+      shell: bash
+      run: terraform workspace select ${{ inputs.workspace }}
+      working-directory: ${{ inputs.working-directory }}
+
+    - name: Terraform Validate
+      id: validate
+      shell: bash
+      run: terraform validate -no-color
+      continue-on-error: true
+      working-directory: ${{ inputs.working-directory }}
+
+    - name: Terraform Plan
+      id: plan
+      shell: bash
+      run: |
+        terraform plan \
+          -input=false \
+          -lock=${{ inputs.lock-state }} \
+          -out=${{ inputs.plan-name }} \
+          -parallelism=${{ inputs.parallelism }} \
+          ${{ inputs.var-file != '' && format('{0}{1}', '-var-file=', inputs.var-file) || ''}};
+        terraform show -no-color ${{ inputs.plan-name }} >${{ github.workspace }}/plan-contents.out
+        sed -i -E -e '/(Reading...|Read complete|Refreshing state...|\[command\]|::debug::)/d' ${{ github.workspace }}/plan-contents.out
+      continue-on-error: true
+      working-directory: ${{ inputs.working-directory }}
+
+    - name: Upload plan artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: plan
+        path: |
+          ${{ github.workspace }}/plan-contents.out
+        retention-days: 30
+
+    - name: Generate PR message
+      shell: bash
+      run: |
+        echo "
+        #### Terraform Format and Style 🖌\`${{ steps.fmt.outcome }}\` ${{ steps.fmt.outcome != 'success' && ':x:' || ':white_check_mark:' }}
+        <details><summary>Format Output</summary>
+
+        \`\`\`terraform
+        ${{ steps.fmt.outputs.stdout }}
+        \`\`\`
+
+        </details>
+
+        #### Terraform Initialization ⚙️\`${{ steps.init.outcome }}\` ${{ steps.init.outcome != 'success' && ':x:' || ':white_check_mark:' }}
+        #### Terraform Validation 🤖\`${{ steps.validate.outcome }}\` ${{ steps.validate.outcome != 'success' && ':x:' || ':white_check_mark:' }}
+        <details><summary>Validation Output</summary>
+
+        \`\`\`terraform
+        ${{ steps.validate.outputs.stdout }}
+        \`\`\`
+
+        </details>
+
+        #### Terraform Plan 📖\`${{ steps.plan.outcome }}\` ${{ steps.plan.outcome != 'success' && ':x:' || ':white_check_mark:' }}
+
+        <details><summary>Show Plan (last 32K)
+
+
+        [Download full plan](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}/#:~:text=plan)
+
+        </summary>
+
+        \`\`\`terraform
+        $(cat ${{ github.workspace }}/plan-contents.out | tail --bytes=32768)
+        \`\`\`
+
+        </details>
+
+        *Pusher: @${{ github.actor }}, Action: \`${{ github.event_name }}\`, Workflow: \`${{ github.workflow }}\`, Workspace: \`${{ inputs.workspace != '' && inputs.workspace || 'default' }}\`*
+        " >> ${{ github.workspace }}/pr-message.txt
+
+    # Max comment body size is 65536 bytes, so we're truncating the plan above
+    - uses: marocchino/sticky-pull-request-comment@efaaab3fd41a9c3de579aba759d2552635e590fd # v2.8.0
+      if: github.event_name == 'pull_request'
+      with:
+        path: ${{ github.workspace }}/pr-message.txt
+        header: tf-plan-${{ inputs.workspace != '' && inputs.workspace || 'default' }}
+
+    - name: Results
+      if: ${{ steps.init.outcome != 'success' || steps.validate.outcome != 'success' || steps.plan.outcome != 'success' || steps.fmt.outcome != 'success'}}
+      shell: bash
+      run: echo "One or more checks failed, see logs or PR comment for more information." && exit 1

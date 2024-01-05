@@ -1,0 +1,38 @@
+name: main
+
+permissions:
+  id-token: write
+  contents: read
+
+on:
+  push:
+    branches: ["main"]
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    concurrency:
+      group: deploy
+      cancel-in-progress: false
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: ./.github/actions/oidc
+        with:
+          role: ${{ vars.DEPLOY_ROLE }}
+          region: eu-north-1
+          profile: backend
+
+
+      - uses: ./.github/actions/tf-quality-check
+        name: Terraform Quality Check
+        with:
+          terraform-version: 1.6.6
+          plan-name: plan-to-apply
+          lock-state: true
+
+      - name: Terraform Apply
+        id: apply
+        run: terraform apply -auto-approve -input=false "plan-to-apply"

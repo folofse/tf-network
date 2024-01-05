@@ -1,0 +1,26 @@
+name: Pull request
+
+on:
+  pull_request:
+
+permissions:
+  pull-requests: write
+  id-token: write
+  contents: read
+
+jobs:
+  plan:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout
+
+      - uses: ./.github/actions/oidc@
+        with:
+          role: ${{ vars.DEPLOY_ROLE }}
+          region: eu-north-1
+
+      - uses: ./.github/actions/tf-quality-check
+        name: Terraform Quality Check
+        with:
+          terraform-version: 1.6.6
+        
