@@ -20,7 +20,7 @@ module "folof_se" {
 }
 
 resource "aws_route53_record" "folof_se_google_spf" {
-  zone_id = module.montern_se.route53_zone_id
+  zone_id = module.folof_se.route53_zone_id
   name    = ""
   type    = "TXT"
   ttl     = 3600
@@ -31,7 +31,7 @@ resource "aws_route53_record" "folof_se_google_spf" {
 }
 
 resource "aws_route53_record" "folof_se_google_mx" {
-  zone_id = module.montern_se.route53_zone_id
+  zone_id = module.folof_se.route53_zone_id
   name    = ""
   type    = "MX"
   ttl     = 3600
