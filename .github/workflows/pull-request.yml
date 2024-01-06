@@ -12,12 +12,13 @@ jobs:
   plan:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout
+      - uses: actions/checkout@v4
 
-      - uses: ./.github/actions/oidc@
+      - uses: ./.github/actions/oidc
         with:
           role: ${{ vars.DEPLOY_ROLE }}
           region: eu-north-1
+          profile: backend
 
       - uses: ./.github/actions/tf-quality-check
         name: Terraform Quality Check
