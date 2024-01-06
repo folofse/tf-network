@@ -14,9 +14,9 @@ module "folof_se" {
   registrant_contact = local.override_default_contact
   tech_contact       = local.override_default_contact
 
-  admin_contact_extra_params = local.extra_params
+  admin_contact_extra_params      = local.extra_params
   registrant_contact_extra_params = local.extra_params
-  tech_contact_extra_params = local.extra_params
+  tech_contact_extra_params       = local.extra_params
 }
 
 resource "aws_route53_record" "folof_se_google_spf" {
