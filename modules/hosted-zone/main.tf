@@ -1,5 +1,5 @@
 resource "aws_route53_zone" "zone" {
-  name = var.domain_name
+  name    = var.domain_name
   comment = length(var.domain_name_servers) > 0 ? "Not used - domain points to external NS records" : "Managed by Terraform"
 }
 
