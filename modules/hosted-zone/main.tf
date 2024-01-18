@@ -1,6 +1,5 @@
 resource "aws_route53_zone" "zone" {
   name    = var.domain_name
-  comment = length(var.domain_name_servers) > 0 ? "Not used - domain points to external NS records" : "Managed by Terraform"
 }
 
 resource "aws_route53domains_registered_domain" "registered_domain" {
@@ -9,7 +8,7 @@ resource "aws_route53domains_registered_domain" "registered_domain" {
   tags = var.tags
 
   dynamic "name_server" {
-    for_each = length(var.domain_name_servers) > 0 ? var.domain_name_servers : aws_route53_zone.zone.name_servers
+    for_each = aws_route53_zone.zone.name_servers
     content {
       name = name_server.value
     }
