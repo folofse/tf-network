@@ -12,7 +12,7 @@ module "brfleopold_se" {
   registrant_contact_extra_params = local.extra_params
   tech_contact_extra_params       = local.extra_params
 }
-/*
+
 resource "aws_route53_record" "brfleopold_se_ns" {
   zone_id = module.brfleopold_se.route53_zone_id
   name    = "brfleopold.se"
@@ -27,10 +27,9 @@ resource "aws_route53_record" "brfleopold_se_ns" {
   ]
 }
 
-
 resource "aws_route53_record" "brfleopold_se_soa" {
   zone_id = module.brfleopold_se.route53_zone_id
-  name    = ""
+  name    = "brfleopold.se"
   type    = "SOA"
   ttl     = 900
 
@@ -38,4 +37,3 @@ resource "aws_route53_record" "brfleopold_se_soa" {
     "ns-1937.awsdns-50.co.uk. awsdns-hostmaster.amazon.com. 1 7200 900 1209600 86400",
   ]
 }
-*/
