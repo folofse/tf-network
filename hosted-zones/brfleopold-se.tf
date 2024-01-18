@@ -27,6 +27,7 @@ resource "aws_route53_record" "brfleopold_se_ns" {
   ]
 }
 
+
 resource "aws_route53_record" "brfleopold_se_soa" {
   zone_id = module.brfleopold_se.route53_zone_id
   name    = ""
