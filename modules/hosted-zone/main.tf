@@ -8,15 +8,11 @@ resource "aws_route53domains_registered_domain" "registered_domain" {
   tags = var.tags
 
   dynamic "name_server" {
-    for_each = aws_route53_zone.zone.name_servers
+    for_each = length(var.domain_name_servers) > 0 ? var.domain_name_servers : aws_route53_zone.zone.name_servers
     content {
       name = name_server.value
     }
   }
-
-  depends_on = [
-    aws_route53_zone.zone
-  ]
 
   admin_privacy      = var.admin_privacy
   registrant_privacy = var.registrant_privacy

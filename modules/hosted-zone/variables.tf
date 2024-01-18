@@ -27,6 +27,12 @@ variable "domain_name" {
   description = "(Required) The name of the registered domain."
 }
 
+variable "domain_name_servers" {
+  type        = list(string)
+  description = "Name servers to other zone - will not create a new zone."
+  default     = []
+}
+
 variable "registrant_contact" {
   type        = map(string)
   description = "(Optional) Details about the domain registrant."
