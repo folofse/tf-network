@@ -11,4 +11,11 @@ module "brfleopold_se" {
   admin_contact_extra_params      = local.extra_params
   registrant_contact_extra_params = local.extra_params
   tech_contact_extra_params       = local.extra_params
+
+  domain_name_servers = [
+    "ns-210.awsdns-26.com",
+    "ns-1638.awsdns-12.co.uk",
+    "ns-1499.awsdns-59.org",
+    "ns-992.awsdns-60.net"
+  ]
 }
