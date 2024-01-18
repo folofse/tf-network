@@ -13,9 +13,9 @@ module "brfleopold_se" {
   tech_contact_extra_params       = local.extra_params
 
   domain_name_servers = [
-    "ns-1937.awsdns-50.co.uk.",
-    "ns-684.awsdns-21.net.",
-    "ns-57.awsdns-07.com.",
-    "ns-1241.awsdns-27.org."
+    "ns-1937.awsdns-50.co.uk",
+    "ns-684.awsdns-21.net",
+    "ns-57.awsdns-07.com",
+    "ns-1241.awsdns-27.org"
   ]
 }
