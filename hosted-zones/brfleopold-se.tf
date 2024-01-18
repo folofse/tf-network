@@ -11,5 +11,4 @@ module "brfleopold_se" {
   admin_contact_extra_params      = local.extra_params
   registrant_contact_extra_params = local.extra_params
   tech_contact_extra_params       = local.extra_params
-
 }
